@@ -1,0 +1,30 @@
+CREATE VIEW fmatch_view AS
+	SELECT  (SELECT tname FROM team WHERE team.tid=fm.t1_id) AS 't1name',
+            (SELECT t_logo FROM team WHERE team.tid=fm.t1_id) AS 't1logo',
+            (SELECT tname FROM team WHERE team.tid=fm.t2_id) AS 't2name',
+            (SELECT t_logo FROM team WHERE team.tid=fm.t2_id) AS 't2logo',
+            (SELECT COUNT(*) FROM goal NATURAL JOIN fmatch WHERE mid=fm.mid AND EXISTS(SELECT * FROM team NATURAL JOIN player WHERE tid=fm.t1_id AND pid=goal.pid)) AS 't1score',
+            (SELECT COUNT(*) FROM goal NATURAL JOIN fmatch WHERE mid=fm.mid AND EXISTS(SELECT * FROM team NATURAL JOIN player WHERE tid=fm.t2_id AND pid=goal.pid)) AS t2score,
+            fm.start_date,
+            (SELECT stad_name FROM stadium NATURAL JOIN fmatch WHERE mid=fm.mid) as stadium,
+            fm.mid,
+            (SELECT tcolor FROM team WHERE team.tid=fm.t1_id) AS 't1color',
+            (SELECT tcolor FROM team WHERE team.tid=fm.t2_id) AS 't2color',
+            (SELECT stad_loc FROM stadium NATURAL JOIN fmatch WHERE mid=fm.mid) as stad_loc
+            	FROM fmatch fm
+
+
+CREATE VIEW livematch_view AS 
+    SELECT 
+        mid,pid,t1_id,t2_id,score_time,
+        (SELECT pname FROM player WHERE goal.pid=player.pid AND player.tid=t1_id) AS t1_player,
+        (SELECT pname FROM player WHERE goal.pid=player.pid AND player.tid=t2_id) AS t2_player
+    FROM 
+        fmatch NATURAL JOIN goal;
+
+CREATE TRIGGER log_update BEFORE INSERT ON user FOR EACH ROW BEGIN INSERT INTO log(name,access_date) VALUES (new.username,CURDATE()); END;$$
+
+
+
+000 dbuser:id9282311_harshit
+000 dbname:id9282311_fwc

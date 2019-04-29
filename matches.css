@@ -1,0 +1,16 @@
+.matdet {
+    display: inline;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    display: inline-block;
+    
+}
+.matdet .match_team_logo{
+    margin-right: 5px;
+    margin-left: 5px;
+}

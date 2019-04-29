@@ -1,0 +1,19 @@
+.card-img-top {
+    border-radius: 0;
+    
+}
+
+.border-gradient {
+    border-image-slice: 1;
+    border-width: 5px;
+}
+
+.border-gradient-gold {
+    border-image: gold;
+}
+
+.team-logo {
+    position: absolute;
+    transform: translate(27px, 125px);
+    height:40%;
+}
